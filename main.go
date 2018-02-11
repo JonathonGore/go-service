@@ -2,17 +2,26 @@ package main
 
 import (
 	"crypto/tls"
+	"fmt"
 	"log"
 	"net/http"
 
+	"github.com/JonathonGore/dots/yaml"
+	"github.com/JonathonGore/go-service/config"
 	"github.com/JonathonGore/go-service/handlers"
 	"github.com/JonathonGore/go-service/server"
 )
 
 func main() {
 	var api handlers.API
+	var conf config.Config
 
-	api, err := handlers.New()
+	conf, err := yaml.New("config.yml")
+	if err != nil {
+		log.Fatalf("unable to parse configuration file", err)
+	}
+
+	api, err = handlers.New()
 	if err != nil {
 		log.Fatalf("unable to create handler: %v", err)
 	}
@@ -23,7 +32,7 @@ func main() {
 	}
 
 	srv := &http.Server{
-		Addr:      ":3000",
+		Addr:      fmt.Sprintf(":%v", conf.GetInt("server.port")),
 		Handler:   s,
 		TLSConfig: &tls.Config{},
 	}
