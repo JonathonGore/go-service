@@ -12,3 +12,6 @@ Gopkg.lock
 *.key
 *.crt
 *.csr
+
+# go-service files
+.go.service.rename
