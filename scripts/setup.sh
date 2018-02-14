@@ -47,3 +47,4 @@ echo Updating Dockerfile
 
 # Note % is an alternate deliminater as opposed to / as our variables will likely have /'s
 sed -i -e "s%${DEFAULT_IMPORT_PATH}%${IMPORT_PATH}%g" Dockerfile
+rm Dockerfile-e
