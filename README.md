@@ -10,10 +10,10 @@ It provides functionality and structure common to Go micro-services.
 ```
 $ pwd
 /Users/jack/go/src/github.com/JonathonGore
-$ git clone --depth 1 git@github.com:JonathonGore/go-service.git new-service
+$ git clone --depth 1 git@github.com:JonathonGore/go-service.git REPOSITORY && cd REPOSITORY
 ```
 
-2) Update git to point to the GitHub repository you want to use
+2) Update git to point to the GitHub repository you want to use (if using ssh use corresponding URL instead)
 ```
 git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
 ```
@@ -26,7 +26,13 @@ git remote set-url origin https://github.com/USERNAME/REPOSITORY.git
 ```
 dep ensure
 ```
-5) Run the project
+5a) Run the project
 ```
  go run main.go
 ```
+5b) Or run with Docker
+```
+docker build -t go-service . && docker run -p 3000:3000 go-service
+```
+
+Now you should be able to hit the test endpoint at `http://0.0.0.0:3000/v1/go-service`.
