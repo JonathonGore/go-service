@@ -42,3 +42,8 @@ echo Renaming $DEFAULT_IMPORT_PATH to $IMPORT_PATH
 
 # Rename import paths referencing 
 govers -d -m $DEFAULT_IMPORT_PATH $IMPORT_PATH
+
+echo Updating Dockerfile
+
+# Note % is an alternate deliminater as opposed to / as our variables will likely have /'s
+sed -i -e "s%${DEFAULT_IMPORT_PATH}%${IMPORT_PATH}%g" Dockerfile
