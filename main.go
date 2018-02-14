@@ -5,12 +5,29 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/JonathonGore/dots/yaml"
 	"github.com/JonathonGore/go-service/config"
 	"github.com/JonathonGore/go-service/handlers"
 	"github.com/JonathonGore/go-service/server"
 )
+
+func sslExists(certPath, keyPath string) bool {
+	if certPath == "" || keyPath == "" {
+		return false
+	}
+
+	if _, err := os.Stat(certPath); os.IsNotExist(err) {
+		return false
+	}
+
+	if _, err := os.Stat(keyPath); os.IsNotExist(err) {
+		return false
+	}
+
+	return true
+}
 
 func main() {
 	var api handlers.API
@@ -37,5 +54,14 @@ func main() {
 		TLSConfig: &tls.Config{},
 	}
 
-	log.Fatal(srv.ListenAndServe())
+	certFile := conf.GetString("ssl.certificate")
+	keyFile := conf.GetString("ssl.key")
+
+	if !sslExists(certFile, keyFile) {
+		log.Printf("Starting server over http on port: %v", conf.GetInt("server.port"))
+		log.Fatal(srv.ListenAndServe())
+	}
+
+	log.Printf("Starting server over https on port: %v", conf.GetInt("server.port"))
+	log.Fatal(srv.ListenAndServeTLS(certFile, keyFile))
 }
