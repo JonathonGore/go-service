@@ -10,6 +10,7 @@ import (
 	"github.com/JonathonGore/dots/yaml"
 	"github.com/JonathonGore/go-service/config"
 	"github.com/JonathonGore/go-service/handlers"
+	_ "github.com/JonathonGore/go-service/logging"
 	"github.com/JonathonGore/go-service/server"
 )
 
